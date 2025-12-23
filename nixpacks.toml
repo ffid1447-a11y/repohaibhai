@@ -1,0 +1,14 @@
+[phases.setup]
+cmds = [
+    "apt-get update",
+    "apt-get install -y python3 python3-pip", # Install Python system-wide
+]
+
+[phases.install]
+cmds = [
+    "npm install",
+    "pip3 install -r requirements.txt",
+]
+
+[start]
+cmd = "node server.js"
