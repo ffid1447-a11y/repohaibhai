@@ -1,0 +1,31 @@
+[build]
+builder = "nixpacks"
+
+[build.args]
+NODE_VERSION = "18"
+PYTHON_VERSION = "3.11"
+
+# Setup phase - install Python and create virtual environment
+[build.phases.setup]
+cmds = [
+  "apk add --no-cache python3 py3-pip",
+  "python3 -m venv /opt/venv",
+  "source /opt/venv/bin/activate",
+  "pip install --upgrade pip"
+]
+
+# Install phase - install dependencies
+[build.phases.install]
+cmds = [
+  "npm install",
+  "source /opt/venv/bin/activate && pip install -r requirements.txt"
+]
+
+# Build phase - optional setup
+[build.phases.build]
+cmds = ["echo 'Build complete'"]
+
+[deploy]
+startCommand = "node server.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
